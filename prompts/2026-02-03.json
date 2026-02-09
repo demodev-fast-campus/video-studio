@@ -1,0 +1,147 @@
+[
+  {
+    "time": "14:13:14",
+    "user": "seungwonan",
+    "prompt": "https://arxiv.org/html/2307.07924v5\n\n이 논문 문서로 만들려고해 "
+  },
+  {
+    "time": "14:15:09",
+    "user": "seungwonan",
+    "prompt": "이 형식의 프로젝트 만들려고 하는데 게더타운 형식의 웹 프로젝트 만들려면 어떻게 해야해?"
+  },
+  {
+    "time": "14:43:46",
+    "user": "seungwonan",
+    "prompt": "Next.js 16 버전으로 다시 설치했어 진행해"
+  },
+  {
+    "time": "14:54:11",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/demodev-2/CH02/01/PROMPT.md'"
+  },
+  {
+    "time": "14:55:41",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/demodev-2/CH02/01/PROMPT.md'\n다시 읽어봐 "
+  },
+  {
+    "time": "14:57:41",
+    "user": "seungwonan",
+    "prompt": "전체적인 디자인 ChatDev의 도트 디자인으로 하고 싶은데"
+  },
+  {
+    "time": "15:02:29",
+    "user": "seungwonan",
+    "prompt": "## Error Type\nBuild Error\n\n## Error Message\nParsing CSS source code failed\n\n## Build Output\n./src/app/globals.css:790:8\nParsing CSS source code failed\n  788 |   }\n  789 | }\n> 790 | @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');\n      |        ^\n  791 | :root {\n  792 |   --background: #0a0a1a;\n  793 |   --foreground: #ededed;\n\n@import rules must precede all rules aside from @charset and @layer statements\n\nImport trace:\n  Client Component Browser:\n    ./src/app/globals.css [Client Component Browser]\n    ./src/app/layout.tsx [Server Component]\n\nNext.js version: 16.1.6 (Turbopack)"
+  },
+  {
+    "time": "15:03:24",
+    "user": "seungwonan",
+    "prompt": "\u000f\u000f/clear"
+  },
+  {
+    "time": "15:03:29",
+    "user": "seungwonan",
+    "prompt": "## Error Type\nConsole Error\n\n## Error Message\nA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\nhttps://react.dev/link/hydration-mismatch\n\n  ...\n    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>\n      <AppDevOverlayErrorBoundary globalError={[...]}>\n        <ReplaySsrOnlyErrors>\n        <DevRootHTTPAccessFallbackBoundary>\n          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>\n            <HTTPAccessFallbackErrorBoundary pathname=\"/\" notFound={<NotAllowedRootHTTPFallbackError>} ...>\n              <RedirectBoundary>\n                <RedirectErrorBoundary router={{...}}>\n                  <Head>\n                  <__next_root_layout_boundary__>\n                    <SegmentViewNode type=\"layout\" pagePath=\"layout.tsx\">\n                      <SegmentTrieNode>\n                      <link>\n                      <script>\n                      <RootLayout>\n                        <html lang=\"ko\">\n                          <body\n                            className=\"vt323_fc31c767-module__LnSAJG__variable font-pixel antialiased\"\n-                           cz-shortcut-listen=\"true\"\n                          >\n                  ...\n\n\n\n    at body (<anonymous>:null:null)\n    at RootLayout (src/app/layout.tsx:23:7)\n\n## Code Frame\n  21 |   return (\n  22 |     <html lang=\"ko\">\n> 23 |       <body className={`${pixelFont.variable} font-pixel antialiased`}>\n     |       ^\n  24 |         {children}\n  25 |       </body>\n  26 |     </html>\n\nNext.js version: 16.1.6 (Turbopack)"
+  },
+  {
+    "time": "15:12:56",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/demodev-2/CH02/01/public/free-office-pixel-art'\n\n이 에셋들 써줘\n그리고 오피스 느낌 많이 내줘 "
+  },
+  {
+    "time": "15:14:15",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/demodev-2/CH02/01/public/free-office-pixel-art'\n\n이 에셋들 써줘\n그리고 웹 사이트 전체가 오피스 픽셀 게임처럼 구성해줘"
+  },
+  {
+    "time": "15:21:03",
+    "user": "seungwonan",
+    "prompt": "1. 페이지 전체를 '회사 키우기, 타이쿤' 느낌의 게임처럼 만들어줘 기존 UI 게임 화면 위에 플로팅으로 띄우면 될 거 같아\n2. 사진 보면 'Julia_' 접두사의 사진들은 스트라이프 사진도 있어 Julia_ 이 캐릭터만 동적으로 움직이면 될 거 같아 움직이는 캐릭터를 Julia_로 하"
+  },
+  {
+    "time": "15:47:48",
+    "user": "seungwonan",
+    "prompt": "CH02/01/public/free-office-pixel-art/bg.jpeg\n\n이거 백그라운드로 쓸거야\nJulia_"
+  },
+  {
+    "time": "15:55:40",
+    "user": "seungwonan",
+    "prompt": "CH02/01/public/free-office-pixel-art/bg.jpeg\n\n이거 백그라운드로 쓸거야\nJulia_ 이거 스프라이트 이미지 안맞아 이미지 읽고 다시 구현\n지금 디자인 완전 명청해"
+  },
+  {
+    "time": "16:02:19",
+    "user": "seungwonan",
+    "prompt": " 사진의 외곽 하늘색 부분을 Bg 사진으로 해달라고 게임 내부는 전부 타일로 채우고, 에셋을 활용하여 잘 꾸며줘 "
+  },
+  {
+    "time": "16:05:45",
+    "user": "seungwonan",
+    "prompt": "파티션 완전 이상해"
+  },
+  {
+    "time": "16:17:30",
+    "user": "seungwonan",
+    "prompt": "1. ANTHROPIC_API_KEY가 없다면 메뉴에 사용자의 API 키 등록할 수 있도록 해줘\n2. 에셋을 좀 더 풍성하게 해줘 (장식, 사람 -> 일정하게, 자연스럽게 배치해줘 사람이 보기 편하게)\n3. 생성된 코드를 코드 창에서 폴더, 파일을 열 수 있는 미니 에디터로 만들고 전체 폴더 다운 받는 기능도 추가해줘\n4. 저장, 사진처럼 아무 의미없는 것들은 제거해줘\n5. 상단바는 없어도 될 거 같아 제거해줘"
+  },
+  {
+    "time": "16:19:28",
+    "user": "seungwonan",
+    "prompt": "/init"
+  },
+  {
+    "time": "16:29:23",
+    "user": "seungwonan",
+    "prompt": "우측 화면을 아예 게임이 아닌 조작 패널로 하고 싶어\n에이전트 대화창도 우측에서 그냥 볼 수 있도록 해보자\u0001\u0005"
+  },
+  {
+    "time": "16:33:08",
+    "user": "seungwonan",
+    "prompt": "/init "
+  },
+  {
+    "time": "16:40:51",
+    "user": "seungwonan",
+    "prompt": "1. 우측 사이드바 사이즈 조절 자유롭게 할 수 있는 기능 추가\n2. 진행도 % 확인 가능한 UI 추가\n3. 로컬스토리지 anthropic api 암호화 기능 추가, api 키가 없는 사람도 할 수 있는 시뮬레이션 기능 추가\n4. 최종 결과물인 코드 -> 퀄리티 개선 시급. 코드 완성본이 안나옴"
+  },
+  {
+    "time": "16:42:06",
+    "user": "seungwonan",
+    "prompt": "## List\n\n`client.models.list(ModelListParamsparams?, RequestOptionsoptions?): Page<ModelInfo>`\n\n**get** `/v1/models`\n\nList available models.\n\nThe Models API response can be used to determine which models are available for use in the API. More recently released models are listed first.\n\n### Parameters\n\n- `params: ModelListParams`\n\n  - `after_id?: string`\n\n    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately after this object.\n\n  - `before_id?: string`\n\n    Query param: ID of the object to use as a cursor for pagination. When provided, returns the page of results immediately before this object.\n\n  - `limit?: number`\n\n    Query param: Number of items to return per page.\n\n    Defaults to `20`. Ranges from `1` to `1000`.\n\n  - `betas?: Array<AnthropicBeta>`\n\n    Header param: Optional header to specify the beta version(s) you want to use.\n\n    - `(string & {})`\n\n    - `\"message-batches-2024-09-24\" | \"prompt-caching-2024-07-31\" | \"computer-use-2024-10-22\" | 16 more`\n\n      - `\"message-batches-2024-09-24\"`\n\n      - `\"prompt-caching-2024-07-31\"`\n\n      - `\"computer-use-2024-10-22\"`\n\n      - `\"computer-use-2025-01-24\"`\n\n      - `\"pdfs-2024-09-25\"`\n\n      - `\"token-counting-2024-11-01\"`\n\n      - `\"token-efficient-tools-2025-02-19\"`\n\n      - `\"output-128k-2025-02-19\"`\n\n      - `\"files-api-2025-04-14\"`\n\n      - `\"mcp-client-2025-04-04\"`\n\n      - `\"mcp-client-2025-11-20\"`\n\n      - `\"dev-full-thinking-2025-05-14\"`\n\n      - `\"interleaved-thinking-2025-05-14\"`\n\n      - `\"code-execution-2025-05-22\"`\n\n      - `\"extended-cache-ttl-2025-04-11\"`\n\n      - `\"context-1m-2025-08-07\"`\n\n      - `\"context-management-2025-06-27\"`\n\n      - `\"model-context-window-exceeded-2025-08-26\"`\n\n      - `\"skills-2025-10-02\"`\n\n### Returns\n\n- `ModelInfo`\n\n  - `id: string`\n\n    Unique model identifier.\n\n  - `created_at: string`\n\n    RFC 3339 datetime string representing the time at which the model was released. May be set to an epoch value if the release date is unknown.\n\n  - `display_name: string`\n\n    A human-readable name for the model.\n\n  - `type: \"model\"`\n\n    Object type.\n\n    For Models, this is always `\"model\"`.\n\n    - `\"model\"`\n\n### Example\n\n```typescript\nimport Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: process.env['ANTHROPIC_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const modelInfo of client.models.list()) {\n  console.log(modelInfo.id);\n}\n``` 모델 선택 기능 추가"
+  },
+  {
+    "time": "16:46:57",
+    "user": "seungwonan",
+    "prompt": "진행해줘 "
+  },
+  {
+    "time": "16:59:16",
+    "user": "seungwonan",
+    "prompt": "우측 사이드바가 게임보다 z-index가 높아서 사이드바가 가릴 수도 있으면 좋겠어 "
+  },
+  {
+    "time": "17:01:07",
+    "user": "seungwonan",
+    "prompt": "z-index로는 못가리네 페이지 구조 확인해봐 z-index가 필요없고 다른 식으로 구현해야한다면 속성 제거해"
+  },
+  {
+    "time": "17:07:21",
+    "user": "seungwonan",
+    "prompt": "사이드바를 닫으면 다시 열 수 없어\n사이드 바 열려 있을 때 우측에 좀 공간을 만들어서 게임 화면이 왼쪽으로 쏠리게 해야할 거 같아"
+  },
+  {
+    "time": "17:08:54",
+    "user": "seungwonan",
+    "prompt": "/init "
+  },
+  {
+    "time": "17:10:46",
+    "user": "seungwonan",
+    "prompt": "코드 리펙토링해줘 "
+  },
+  {
+    "time": "18:59:52",
+    "user": "seungwonan",
+    "prompt": "1. 반드시 결과물 코드가 한 프로젝트 파일처럼 나오게 성능 개선해. 현재는 마지막 답변이 파일 안에 들어있고 끝나는 경우가 있어\n2. 코드 에디터 속 복사 버튼이 배경과 글씨색이 검정이라 잘 보이지 않아"
+  }
+]

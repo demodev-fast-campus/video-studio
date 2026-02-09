@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "arxiv-mcp-server": {
+      "command": "uv",
+      "args": [
+        "tool",
+        "run",
+        "arxiv-mcp-server",
+        "--storage-path",
+        "/Users/seungwonan/curriculum/demodev-2/CH02/01/papers"
+      ]
+    },
+    "docling": {
+      "command": "uvx",
+      "args": [
+        "--from=docling-mcp",
+        "docling-mcp-server"
+      ]
+    }
+  }
+}
