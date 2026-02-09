@@ -6,6 +6,7 @@ import { GAME_CONFIG } from '../config';
 
 export class OfficeScene extends Phaser.Scene {
   private agents: Map<AgentRole, Agent> = new Map();
+  private eventHandlers: Array<{ event: string; handler: (...args: unknown[]) => void }> = [];
 
   constructor() {
     super({ key: 'OfficeScene' });
@@ -19,8 +20,19 @@ export class OfficeScene extends Phaser.Scene {
     this.createAgents();
     this.setupEventListeners();
 
+    // Scene 종료 시 EventBus 리스너 정리
+    this.events.on('shutdown', this.cleanup, this);
+    this.events.on('destroy', this.cleanup, this);
+
     // 게임 준비 완료 이벤트
     EventBus.emit(GameEvents.GAME_READY);
+  }
+
+  private cleanup(): void {
+    for (const { event, handler } of this.eventHandlers) {
+      EventBus.off(event, handler);
+    }
+    this.eventHandlers = [];
   }
 
   private createPixelBackground(): void {
@@ -280,56 +292,69 @@ export class OfficeScene extends Phaser.Scene {
     });
   }
 
+  private registerEventHandler(event: string, handler: (...args: unknown[]) => void): void {
+    this.eventHandlers.push({ event, handler });
+    EventBus.on(event, handler);
+  }
+
   private setupEventListeners(): void {
     // 에이전트 이동
-    EventBus.on(
+    this.registerEventHandler(
       GameEvents.MOVE_AGENT,
-      async (data: { role: AgentRole; x: number; y: number }) => {
-        const agent = this.agents.get(data.role);
+      async (data: unknown) => {
+        const { role, x, y } = data as { role: AgentRole; x: number; y: number };
+        const agent = this.agents.get(role);
         if (agent) {
-          await agent.moveToPosition(data.x, data.y);
-          agent.setDepth(data.y + 100);
-          EventBus.emit(GameEvents.AGENT_MOVED, data.role);
+          await agent.moveToPosition(x, y);
+          agent.setDepth(y + 100);
+          EventBus.emit(GameEvents.AGENT_MOVED, role);
         }
       }
     );
 
     // 에이전트 활성화
-    EventBus.on(
+    this.registerEventHandler(
       GameEvents.SET_AGENT_ACTIVE,
-      (data: { role: AgentRole; active: boolean }) => {
-        const agent = this.agents.get(data.role);
+      (data: unknown) => {
+        const { role, active } = data as { role: AgentRole; active: boolean };
+        const agent = this.agents.get(role);
         if (agent) {
-          agent.setActive(data.active);
+          agent.setActive(active);
         }
       }
     );
 
     // 말풍선 표시
-    EventBus.on(
+    this.registerEventHandler(
       GameEvents.SHOW_BUBBLE,
-      (data: { role: AgentRole; text: string }) => {
-        const agent = this.agents.get(data.role);
+      (data: unknown) => {
+        const { role, text } = data as { role: AgentRole; text: string };
+        const agent = this.agents.get(role);
         if (agent) {
-          agent.showBubble(data.text);
+          agent.showBubble(text);
         }
       }
     );
 
     // 말풍선 숨김
-    EventBus.on(GameEvents.HIDE_BUBBLE, (role: AgentRole) => {
-      const agent = this.agents.get(role);
+    this.registerEventHandler(GameEvents.HIDE_BUBBLE, (role: unknown) => {
+      const agent = this.agents.get(role as AgentRole);
       if (agent) {
         agent.hideBubble();
       }
     });
 
     // 대화 시작 (에이전트들을 대화 위치로 이동)
-    EventBus.on(
+    this.registerEventHandler(
       GameEvents.START_CONVERSATION,
-      async (data: { instructor: AgentRole; assistant: AgentRole; phase: Phase }) => {
-        const instructor = this.agents.get(data.instructor);
-        const assistant = this.agents.get(data.assistant);
+      async (data: unknown) => {
+        const { instructor: instrRole, assistant: assistRole, phase } = data as {
+          instructor: AgentRole;
+          assistant: AgentRole;
+          phase: Phase;
+        };
+        const instructor = this.agents.get(instrRole);
+        const assistant = this.agents.get(assistRole);
 
         if (instructor && assistant) {
           // 모든 에이전트 비활성화
@@ -339,16 +364,16 @@ export class OfficeScene extends Phaser.Scene {
           let targetX = 230;
           let targetY = 160; // 감독실 테이블 위
 
-          if (data.phase === 'research') {
+          if (phase === 'research') {
             targetX = 230;
             targetY = 160; // 리서치랩 (좌상단)
-          } else if (data.phase === 'pre-production') {
+          } else if (phase === 'pre-production') {
             targetX = 620;
             targetY = 160; // 감독실 (우상단)
-          } else if (data.phase === 'production') {
+          } else if (phase === 'production') {
             targetX = 280;
             targetY = 400; // 편집실 (좌하단)
-          } else if (data.phase === 'post-production') {
+          } else if (phase === 'post-production') {
             targetX = 650;
             targetY = 400; // 프리뷰룸 (우하단)
           }

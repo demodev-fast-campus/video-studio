@@ -61,6 +61,9 @@ export class Agent extends Phaser.GameObjects.Container {
   setActive(active: boolean): this {
     this.isActiveAgent = active;
 
+    // Scene이 파괴된 후 호출될 수 있음 (HMR 등)
+    if (!this.scene || !this.scene.sys?.isActive()) return this;
+
     if (active) {
       // 활성화 시 글로우 효과
       if (!this.activeGlow) {
@@ -89,7 +92,7 @@ export class Agent extends Phaser.GameObjects.Container {
       }
 
       // Julia는 idle 애니메이션으로 복귀
-      if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite) {
+      if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite && this.sprite.anims) {
         this.sprite.setScale(2); // idle scale (32x32 * 2)
         this.sprite.play('julia-idle-anim');
       }
@@ -99,6 +102,9 @@ export class Agent extends Phaser.GameObjects.Container {
 
   showBubble(text: string): void {
     this.hideBubble();
+
+    // Scene이 파괴된 후 호출될 수 있음 (HMR 등)
+    if (!this.scene || !this.scene.sys?.isActive()) return;
 
     const maxWidth = 180;
     const padding = 8;
@@ -158,12 +164,17 @@ export class Agent extends Phaser.GameObjects.Container {
 
   moveToPosition(x: number, y: number, duration: number = 800): Promise<void> {
     return new Promise((resolve) => {
+      if (!this.scene || !this.scene.sys?.isActive()) {
+        resolve();
+        return;
+      }
+
       // 이동 방향 계산
       const dx = x - this.x;
       const dy = y - this.y;
 
       // Julia만 방향에 따른 걷기 애니메이션
-      if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite) {
+      if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite && this.sprite.anims) {
         // Walk sprites are 64x64, scale 1 to match workers
         this.sprite.setScale(1);
         if (Math.abs(dx) > Math.abs(dy)) {
@@ -192,7 +203,7 @@ export class Agent extends Phaser.GameObjects.Container {
         ease: 'Power2',
         onComplete: () => {
           // Julia는 이동 완료 후 idle 애니메이션
-          if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite) {
+          if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite && this.sprite.anims) {
             this.sprite.setScale(2); // Back to idle scale (32x32 * 2 = 64)
             this.sprite.play('julia-idle-anim');
           }
@@ -204,14 +215,14 @@ export class Agent extends Phaser.GameObjects.Container {
 
   // Julia가 PC 작업 중일 때 애니메이션
   playWorkAnimation(): void {
-    if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite) {
+    if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite && this.sprite.anims) {
       this.sprite.play('julia-pc-anim');
     }
   }
 
   // Julia가 커피 마시는 애니메이션
   playCoffeeAnimation(): void {
-    if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite) {
+    if (this.isJulia && this.sprite instanceof Phaser.GameObjects.Sprite && this.sprite.anims) {
       this.sprite.play('julia-coffee-anim');
     }
   }

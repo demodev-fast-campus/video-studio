@@ -12,19 +12,6 @@ interface UseResizableOptions {
   storageKey?: string;
 }
 
-// Helper to get initial width from localStorage
-function getInitialWidth(storageKey: string, defaultWidth: number, minWidth: number, maxWidth: number): number {
-  if (typeof window === 'undefined') return defaultWidth;
-  const savedWidth = localStorage.getItem(storageKey);
-  if (savedWidth) {
-    const parsedWidth = parseInt(savedWidth, 10);
-    if (!isNaN(parsedWidth) && parsedWidth >= minWidth && parsedWidth <= maxWidth) {
-      return parsedWidth;
-    }
-  }
-  return defaultWidth;
-}
-
 export function useResizable(options: UseResizableOptions = {}) {
   const {
     defaultWidth = DEFAULT_WIDTH,
@@ -33,12 +20,21 @@ export function useResizable(options: UseResizableOptions = {}) {
     storageKey = SIDEBAR_WIDTH_KEY,
   } = options;
 
-  const [width, setWidth] = useState(() =>
-    getInitialWidth(storageKey, defaultWidth, minWidth, maxWidth)
-  );
+  const [width, setWidth] = useState(defaultWidth);
   const [isResizing, setIsResizing] = useState(false);
   const startXRef = useRef(0);
   const startWidthRef = useRef(0);
+
+  // Restore width from localStorage after hydration
+  useEffect(() => {
+    const savedWidth = localStorage.getItem(storageKey);
+    if (savedWidth) {
+      const parsedWidth = parseInt(savedWidth, 10);
+      if (!isNaN(parsedWidth) && parsedWidth >= minWidth && parsedWidth <= maxWidth) {
+        setWidth(parsedWidth);
+      }
+    }
+  }, [storageKey, minWidth, maxWidth]);
 
   // Save width to localStorage when it changes
   const saveWidth = useCallback(
