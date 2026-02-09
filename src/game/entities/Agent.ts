@@ -16,7 +16,7 @@ export class Agent extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number, role: AgentRole) {
     super(scene, x, y);
     this.role = role;
-    this.isJulia = role === 'Tester'; // Tester(Eve)가 Julia
+    this.isJulia = role === 'QAReviewer'; // QAReviewer(Eve)가 Julia
 
     // 그림자
     this.shadow = scene.add.ellipse(0, 40, 50, 14, 0x000000, 0.4);

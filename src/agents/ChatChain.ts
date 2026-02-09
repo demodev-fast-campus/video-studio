@@ -96,7 +96,7 @@ export async function runDevelopmentProcess(
   let context = '';
   let finalCode = '';
 
-  const phaseOrder: Phase[] = ['design', 'coding', 'testing'];
+  const phaseOrder: Phase[] = ['pre-production', 'production', 'post-production'];
 
   for (const phase of phaseOrder) {
     const pairs = PHASE_PAIRS[phase];
@@ -138,7 +138,7 @@ export async function runDevelopmentProcess(
       if (lastMessage) {
         context = lastMessage.content;
 
-        if (phase === 'coding') {
+        if (phase === 'production') {
           finalCode = extractCode(lastMessage.content);
         }
       }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { ChatMessage, Phase, AgentRole } from '@/types';
+import { VideoCompositionProps } from '@/types/remotion';
 import {
   emitStartConversation,
   emitShowBubble,
@@ -9,7 +10,7 @@ import {
 } from './useGameEvents';
 
 function truncateMessage(message: string): string {
-  const withoutCode = message.replace(/```[\s\S]*?```/g, '[CODE]');
+  const withoutCode = message.replace(/```[\s\S]*?```/g, '[JSON]');
   const withoutMarker = withoutCode.replace(/<TASK_DONE>/g, '');
   if (withoutMarker.length > 80) {
     return withoutMarker.substring(0, 77) + '...';
@@ -17,12 +18,17 @@ function truncateMessage(message: string): string {
   return withoutMarker.trim();
 }
 
+export interface CompositionData {
+  props: VideoCompositionProps | null;
+  code: string;
+}
+
 export interface DevelopmentState {
   messages: ChatMessage[];
   currentPhase: Phase | null;
   completedPhases: Phase[];
   activeAgents: AgentRole[];
-  generatedCode: string;
+  compositionData: CompositionData;
   isRunning: boolean;
   error: string | null;
   currentRound: number;
@@ -34,7 +40,10 @@ export function useDevelopmentStream() {
   const [currentPhase, setCurrentPhase] = useState<Phase | null>(null);
   const [completedPhases, setCompletedPhases] = useState<Phase[]>([]);
   const [activeAgents, setActiveAgents] = useState<AgentRole[]>([]);
-  const [generatedCode, setGeneratedCode] = useState('');
+  const [compositionData, setCompositionData] = useState<CompositionData>({
+    props: null,
+    code: '',
+  });
   const [isRunning, setIsRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentRound, setCurrentRound] = useState(0);
@@ -45,7 +54,7 @@ export function useDevelopmentStream() {
     setMessages([]);
     setCurrentPhase(null);
     setCompletedPhases([]);
-    setGeneratedCode('');
+    setCompositionData({ props: null, code: '' });
     setActiveAgents([]);
     setError(null);
     setCurrentRound(0);
@@ -58,7 +67,8 @@ export function useDevelopmentStream() {
       task: string,
       apiKey: string,
       selectedModel: string,
-      simulationMode: boolean
+      simulationMode: boolean,
+      tavilyApiKey?: string
     ) => {
       setIsRunning(true);
       reset();
@@ -67,7 +77,7 @@ export function useDevelopmentStream() {
         const response = await fetch('/api/develop', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ task, apiKey, model: selectedModel, simulationMode }),
+          body: JSON.stringify({ task, apiKey, model: selectedModel, simulationMode, tavilyApiKey }),
         });
 
         if (!response.ok) {
@@ -110,9 +120,17 @@ export function useDevelopmentStream() {
                 setActiveAgents([message.from, message.to]);
                 emitShowBubble(message.from, truncateMessage(message.content));
               } else if (currentEvent === 'complete') {
-                const { code } = data;
-                setGeneratedCode(code);
-                setCompletedPhases((prev) => [...prev, 'testing', 'completed']);
+                const { compositionProps, compositionCode } = data;
+                setCompositionData({
+                  props: compositionProps,
+                  code: compositionCode || JSON.stringify(compositionProps, null, 2),
+                });
+                setCompletedPhases((prev) => {
+                  const toAdd: Phase[] = [];
+                  if (!prev.includes('post-production')) toAdd.push('post-production');
+                  toAdd.push('completed');
+                  return [...prev, ...toAdd];
+                });
                 setCurrentPhase('completed');
                 setActiveAgents([]);
                 emitDeactivateAllAgents();
@@ -142,7 +160,7 @@ export function useDevelopmentStream() {
     currentPhase,
     completedPhases,
     activeAgents,
-    generatedCode,
+    compositionData,
     isRunning,
     error,
     currentRound,

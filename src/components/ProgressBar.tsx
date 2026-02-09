@@ -7,12 +7,13 @@ interface ProgressBarProps {
   maxRounds: number;
 }
 
-const PHASE_ORDER: Phase[] = ['design', 'coding', 'testing', 'completed'];
+const PHASE_ORDER: Phase[] = ['research', 'pre-production', 'production', 'post-production', 'completed'];
 const PHASE_LABELS: Record<Phase, string> = {
-  design: '설계',
-  coding: '코딩',
-  testing: '테스트',
-  completed: '완료',
+  'research': '리서치',
+  'pre-production': '기획',
+  'production': '제작',
+  'post-production': '후반작업',
+  'completed': '완료',
 };
 
 export default function ProgressBar({
@@ -29,11 +30,11 @@ export default function ProgressBar({
     const phaseIndex = PHASE_ORDER.indexOf(currentPhase);
     if (phaseIndex === -1) return 0;
 
-    // Each phase contributes 33.33% to total progress
-    const baseProgress = (phaseIndex / 3) * 100;
+    // Each phase contributes 25% to total progress (4 active phases)
+    const baseProgress = (phaseIndex / 4) * 100;
 
     // Add progress within current phase based on rounds
-    const phaseProgress = (currentRound / maxRounds) * 33.33;
+    const phaseProgress = (currentRound / maxRounds) * 25;
 
     return Math.min(100, baseProgress + phaseProgress);
   };
@@ -47,7 +48,7 @@ export default function ProgressBar({
         <span className="text-xs text-[#8a8aaa]">
           {currentPhase
             ? currentPhase === 'completed'
-              ? '개발 완료'
+              ? '제작 완료'
               : `${PHASE_LABELS[currentPhase]} 진행중...`
             : '대기중'}
         </span>
@@ -64,7 +65,7 @@ export default function ProgressBar({
 
       {/* Phase indicators */}
       <div className="flex justify-between mt-2">
-        {PHASE_ORDER.slice(0, 3).map((phase) => {
+        {PHASE_ORDER.slice(0, 4).map((phase) => {
           const isCompleted = completedPhases.includes(phase);
           const isCurrent = currentPhase === phase;
 

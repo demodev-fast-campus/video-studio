@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import GameCanvas from '@/components/GameCanvas';
 import ChatPanel from '@/components/ChatPanel';
-import CodeOutput from '@/components/CodeOutput';
+import VideoOutput from '@/components/VideoOutput';
 import SettingsModal from '@/components/SettingsModal';
 import ProgressBar from '@/components/ProgressBar';
 import { useResizable } from '@/hooks/useResizable';
@@ -14,7 +14,7 @@ import {
   LuPlay,
   LuLoader,
   LuMessageSquare,
-  LuCode,
+  LuVideo,
   LuSettings,
   LuChevronLeft,
   LuChevronRight,
@@ -23,18 +23,18 @@ import {
 
 export default function Home() {
   const [task, setTask] = useState('');
-  const [activeTab, setActiveTab] = useState<'chat' | 'code'>('chat');
+  const [activeTab, setActiveTab] = useState<'chat' | 'video'>('chat');
   const [showSettings, setShowSettings] = useState(false);
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
 
   // 커스텀 훅 사용
-  const { apiKey, selectedModel, simulationMode, saveSettings } = useSettings();
+  const { apiKey, selectedModel, simulationMode, tavilyApiKey, saveSettings } = useSettings();
   const { isGameReady } = useGameEvents();
   const {
     messages,
     currentPhase,
     completedPhases,
-    generatedCode,
+    compositionData,
     isRunning,
     error,
     currentRound,
@@ -44,15 +44,15 @@ export default function Home() {
   } = useDevelopmentStream();
   const { width: sidebarWidth, isResizing, handleMouseDown } = useResizable();
 
-  // 코드 생성 시 자동 탭 전환
+  // 영상 생성 시 자동 탭 전환
   useEffect(() => {
-    if (generatedCode) {
-      setActiveTab('code');
+    if (compositionData.props) {
+      setActiveTab('video');
     }
-  }, [generatedCode]);
+  }, [compositionData.props]);
 
-  const handleSaveSettings = (key: string, model: string, simMode: boolean) => {
-    saveSettings(key, model, simMode);
+  const handleSaveSettings = (key: string, model: string, simMode: boolean, tavily: string) => {
+    saveSettings(key, model, simMode, tavily);
     setError(null);
   };
 
@@ -66,7 +66,7 @@ export default function Home() {
     }
 
     setActiveTab('chat');
-    await startDevelopment(task, apiKey, selectedModel, simulationMode);
+    await startDevelopment(task, apiKey, selectedModel, simulationMode, tavilyApiKey);
   };
 
   return (
@@ -122,7 +122,7 @@ export default function Home() {
 
         {/* 패널 헤더 */}
         <div className="bg-gradient-to-r from-[#2c3e50] to-[#34495e] px-4 py-3 border-b-2 border-[#4a4a6a]">
-          <h1 className="text-lg font-bold text-white">ChatDev Office</h1>
+          <h1 className="text-lg font-bold text-white">Video Studio</h1>
           {(isRunning || currentPhase) && (
             <div className="mt-2">
               <ProgressBar
@@ -147,7 +147,7 @@ export default function Home() {
               type="text"
               value={task}
               onChange={(e) => setTask(e.target.value)}
-              placeholder="만들고 싶은 프로젝트를 입력하세요..."
+              placeholder="만들고 싶은 영상을 설명해주세요..."
               className="tycoon-input w-full text-sm"
               disabled={isRunning}
               onKeyDown={(e) => {
@@ -165,7 +165,7 @@ export default function Home() {
                 {isRunning ? (
                   <>
                     <LuLoader className="w-4 h-4 animate-spin" />
-                    <span>개발중...</span>
+                    <span>제작중...</span>
                   </>
                 ) : (
                   <>
@@ -205,16 +205,16 @@ export default function Home() {
             )}
           </button>
           <button
-            onClick={() => setActiveTab('code')}
+            onClick={() => setActiveTab('video')}
             className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 transition-colors ${
-              activeTab === 'code'
+              activeTab === 'video'
                 ? 'bg-[#ffa500] text-white'
                 : 'text-[#8a8aaa] hover:bg-[#2a2a4a]'
             }`}
           >
-            <LuCode className="w-4 h-4" />
-            <span>코드</span>
-            {generatedCode && (
+            <LuVideo className="w-4 h-4" />
+            <span>영상</span>
+            {compositionData.props && (
               <span className="ml-1 w-2 h-2 bg-[#50c878] rounded-full" />
             )}
           </button>
@@ -227,7 +227,7 @@ export default function Home() {
               <ChatPanel messages={messages} isLoading={isRunning} />
             </div>
           ) : (
-            <CodeOutput code={generatedCode} projectName={task || 'project'} />
+            <VideoOutput compositionData={compositionData} />
           )}
         </div>
       </div>
@@ -240,6 +240,7 @@ export default function Home() {
         currentApiKey={apiKey}
         currentModel={selectedModel}
         currentSimulationMode={simulationMode}
+        currentTavilyApiKey={tavilyApiKey}
       />
     </div>
   );

@@ -56,17 +56,17 @@ export class OfficeScene extends Phaser.Scene {
   private createOfficeLayout(): void {
     const { width } = GAME_CONFIG;
 
-    // 회의실 (Design Phase) - 좌상단
-    this.createRoom(20, 40, 420, 210, 'MEETING', 0x4a90d9);
+    // 리서치랩 (Research Phase) - 좌상단
+    this.createRoom(20, 40, 420, 210, 'RESEARCH LAB', 0x00bcd4);
 
-    // 개발실 (Coding Phase) - 우상단
-    this.createRoom(460, 40, 420, 210, 'DEV ROOM', 0x50c878);
+    // 감독실 (Pre-production Phase) - 우상단
+    this.createRoom(460, 40, 420, 210, 'DIRECTOR ROOM', 0x4a90d9);
 
-    // 테스트실 (Testing Phase) - 좌하단
-    this.createRoom(20, 270, 420, 210, 'TEST LAB', 0xff6b6b);
+    // 편집실 (Production Phase) - 좌하단
+    this.createRoom(20, 270, 420, 210, 'EDITING SUITE', 0x50c878);
 
-    // 휴게실 - 우하단
-    this.createRoom(460, 270, 420, 210, 'BREAK', 0xffa500);
+    // 프리뷰룸 (Post-production Phase) - 우하단
+    this.createRoom(460, 270, 420, 210, 'PREVIEW ROOM', 0xff6b6b);
 
     // 상단 타이틀
     const titleBg = this.add.graphics();
@@ -76,7 +76,7 @@ export class OfficeScene extends Phaser.Scene {
     titleBg.strokeRect(width / 2 - 110, 5, 220, 30);
 
     this.add
-      .text(width / 2, 20, 'CHATDEV OFFICE', {
+      .text(width / 2, 20, 'VIDEO STUDIO', {
         fontSize: '16px',
         fontFamily: 'monospace',
         color: '#ffffff',
@@ -118,14 +118,14 @@ export class OfficeScene extends Phaser.Scene {
   }
 
   private createFurniture(): void {
-    // ===== 회의실 (MEETING - 좌상단) =====
+    // ===== 감독실 (DIRECTOR ROOM - 좌상단) =====
     // 대형 회의 테이블 구성 (책상 4개 붙이기)
     this.addFurniture('desk', 180, 140, 1.6);
     this.addFurniture('desk', 280, 140, 1.6);
     this.addFurniture('desk', 180, 190, 1.6);
     this.addFurniture('desk', 280, 190, 1.6);
 
-    // 회의실 의자 배치 (테이블 주변)
+    // 감독실 의자 배치 (테이블 주변)
     this.addFurniture('chair', 130, 140, 1.2); // 좌
     this.addFurniture('chair', 130, 190, 1.2); // 좌
     this.addFurniture('chair', 330, 140, 1.2); // 우
@@ -141,8 +141,8 @@ export class OfficeScene extends Phaser.Scene {
     this.addFurniture('plant', 40, 230, 1.8);
     this.addFurniture('trash', 400, 230, 1.4);
 
-    // ===== 개발실 (DEV ROOM - 우상단) =====
-    // 개발자 워크스테이션 (3열 배치)
+    // ===== 편집실 (EDITING SUITE - 우상단) =====
+    // 편집 워크스테이션 (3열 배치)
     // 1열
     this.addFurniture('desk-with-pc', 520, 100, 1.4);
     this.addFurniture('chair', 520, 130, 1.1);
@@ -177,8 +177,8 @@ export class OfficeScene extends Phaser.Scene {
     this.addFurniture('plant', 480, 70, 1.6);
     this.addFurniture('trash', 480, 230, 1.4);
 
-    // ===== 테스트실 (TEST LAB - 좌하단) =====
-    // 테스트 벤치 (좌측 벽면)
+    // ===== 프리뷰룸 (PREVIEW ROOM - 좌하단) =====
+    // 모니터링 벤치 (좌측 벽면)
     this.addFurniture('writing-table', 80, 320, 1.4);
     this.addFurniture('pc1', 80, 310, 1.2);
     this.addFurniture('chair', 80, 350, 1.1);
@@ -187,7 +187,7 @@ export class OfficeScene extends Phaser.Scene {
     this.addFurniture('pc2', 80, 410, 1.2);
     this.addFurniture('chair', 80, 450, 1.1);
 
-    // 중앙 분석 테이블
+    // 중앙 리뷰 테이블
     this.addFurniture('stamping-table', 230, 370, 1.5);
     this.addFurniture('stamping-table', 330, 370, 1.5);
     this.addFurniture('pc1', 230, 360, 1.2);
@@ -205,7 +205,7 @@ export class OfficeScene extends Phaser.Scene {
     this.addFurniture('plant', 40, 460, 1.6);
     this.addFurniture('trash', 230, 460, 1.4);
 
-    // ===== 휴게실 (BREAK - 우하단) =====
+    // ===== 라운지 (LOUNGE - 우하단) =====
     // 키친 영역 (상단 벽면)
     this.addFurniture('cabinet', 500, 300, 1.3);
     this.addFurniture('coffee-maker', 500, 290, 1.4);
@@ -257,14 +257,15 @@ export class OfficeScene extends Phaser.Scene {
   private createAgents(): void {
     // 에이전트 위치 - 가구 배치에 맞춰 조정
     const adjustedPositions: Record<AgentRole, { x: number; y: number }> = {
-      CEO: { x: 230, y: 120 },        // 회의실 상석
-      CTO: { x: 230, y: 210 },        // 회의실 맞은편
-      Programmer: { x: 620, y: 130 }, // 개발실 중앙 데스크
-      Reviewer: { x: 230, y: 400 },   // 테스트실 중앙
-      Tester: { x: 330, y: 400 },     // 테스트실 중앙 우측
+      Researcher: { x: 230, y: 120 },       // 리서치랩 (좌상단)
+      Director: { x: 620, y: 120 },         // 감독실 (우상단)
+      Producer: { x: 620, y: 210 },         // 감독실 (우상단)
+      Scriptwriter: { x: 230, y: 400 },     // 편집실 (좌하단)
+      MotionDesigner: { x: 330, y: 400 },   // 편집실 (좌하단)
+      QAReviewer: { x: 650, y: 400 },       // 프리뷰룸 (우하단)
     };
 
-    const roles: AgentRole[] = ['CEO', 'CTO', 'Programmer', 'Reviewer', 'Tester'];
+    const roles: AgentRole[] = ['Researcher', 'Director', 'Producer', 'Scriptwriter', 'MotionDesigner', 'QAReviewer'];
 
     roles.forEach((role) => {
       const pos = adjustedPositions[role];
@@ -336,14 +337,20 @@ export class OfficeScene extends Phaser.Scene {
 
           // 페이즈에 따른 대화 위치 결정 (가구 배치를 고려하여 조정)
           let targetX = 230;
-          let targetY = 160; // 회의실 테이블 위
+          let targetY = 160; // 감독실 테이블 위
 
-          if (data.phase === 'coding') {
+          if (data.phase === 'research') {
+            targetX = 230;
+            targetY = 160; // 리서치랩 (좌상단)
+          } else if (data.phase === 'pre-production') {
             targetX = 620;
-            targetY = 160; // 개발실 중앙 통로
-          } else if (data.phase === 'testing') {
+            targetY = 160; // 감독실 (우상단)
+          } else if (data.phase === 'production') {
             targetX = 280;
-            targetY = 400; // 테스트실 중앙
+            targetY = 400; // 편집실 (좌하단)
+          } else if (data.phase === 'post-production') {
+            targetX = 650;
+            targetY = 400; // 프리뷰룸 (우하단)
           }
 
           // 두 에이전트를 대화 위치로 이동

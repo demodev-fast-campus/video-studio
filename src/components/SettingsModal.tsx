@@ -11,10 +11,11 @@ interface ModelInfo {
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (apiKey: string, model: string, simulationMode: boolean) => void;
+  onSave: (apiKey: string, model: string, simulationMode: boolean, tavilyApiKey: string) => void;
   currentApiKey: string;
   currentModel: string;
   currentSimulationMode: boolean;
+  currentTavilyApiKey: string;
 }
 
 export default function SettingsModal({
@@ -24,10 +25,12 @@ export default function SettingsModal({
   currentApiKey,
   currentModel,
   currentSimulationMode,
+  currentTavilyApiKey,
 }: SettingsModalProps) {
   const [apiKey, setApiKey] = useState(currentApiKey);
   const [model, setModel] = useState(currentModel);
   const [simulationMode, setSimulationMode] = useState(currentSimulationMode);
+  const [tavilyApiKey, setTavilyApiKey] = useState(currentTavilyApiKey);
   const [models, setModels] = useState<ModelInfo[]>([]);
   const [isLoadingModels, setIsLoadingModels] = useState(false);
   const [showKey, setShowKey] = useState(false);
@@ -37,7 +40,8 @@ export default function SettingsModal({
     setApiKey(currentApiKey);
     setModel(currentModel);
     setSimulationMode(currentSimulationMode);
-  }, [currentApiKey, currentModel, currentSimulationMode, isOpen]);
+    setTavilyApiKey(currentTavilyApiKey);
+  }, [currentApiKey, currentModel, currentSimulationMode, currentTavilyApiKey, isOpen]);
 
   // API 키가 유효하면 모델 목록 가져오기
   useEffect(() => {
@@ -73,7 +77,7 @@ export default function SettingsModal({
   if (!isOpen) return null;
 
   const handleSave = () => {
-    onSave(apiKey, model, simulationMode);
+    onSave(apiKey, model, simulationMode, tavilyApiKey);
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
@@ -136,6 +140,23 @@ export default function SettingsModal({
                 저장된 키: {maskedKey}
               </p>
             )}
+          </div>
+
+          {/* Tavily API Key */}
+          <div className="mb-6">
+            <label className="block text-sm font-bold text-[#8a8aaa] mb-2">
+              Tavily API Key (선택사항)
+            </label>
+            <input
+              type="password"
+              value={tavilyApiKey}
+              onChange={(e) => setTavilyApiKey(e.target.value)}
+              placeholder="tvly-..."
+              className="w-full px-4 py-3 bg-[#0a0a1a] border-2 border-[#4a4a6a] text-white font-mono text-sm focus:border-[#4a90d9] focus:outline-none transition-colors"
+            />
+            <p className="mt-2 text-xs text-[#6a6a8a]">
+              웹 검색(리서치)에 사용됩니다. 없으면 DuckDuckGo를 사용합니다.
+            </p>
           </div>
 
           {/* 모델 선택 */}

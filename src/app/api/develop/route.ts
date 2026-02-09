@@ -4,7 +4,7 @@ import { ChatChainConfig, PHASE_PAIRS } from '@/agents/types';
 import { AGENT_PROMPTS } from '@/agents/roles';
 import { createAnthropicClient, MessageContent } from '@/lib/anthropic';
 import { generateMockConversations, createMockMessage, delay } from '@/lib/mockResponses';
-import { extractMainCode } from '@/lib/codeExtractor';
+import { extractCompositionProps, extractCompositionFromMessages, createFallbackComposition } from '@/lib/compositionExtractor';
 import {
   TASK_DONE_MARKER,
   MAX_SAME_RESPONSE_COUNT,
@@ -15,6 +15,7 @@ import {
   buildInstructorMessages,
   buildAssistantMessages,
 } from '@/lib/messageBuilder';
+import { performWebSearch } from '@/lib/webSearch';
 
 interface ChatChainState {
   messages: ChatMessage[];
@@ -47,7 +48,6 @@ async function runChatRound(
 ): Promise<{ instructorMessage: string; assistantResponse: string; isComplete: boolean }> {
   state.round++;
 
-  // Instructor 응답 생성
   const instructorMessages = buildInstructorMessages(config, state.messages, state.round);
   const instructorResponse = await generateResponse(
     AGENT_PROMPTS[config.instructor].systemPrompt,
@@ -58,7 +58,6 @@ async function runChatRound(
     createChatMessage(config.instructor, config.assistant, instructorResponse, config.phase)
   );
 
-  // Assistant 응답 생성
   const assistantMessages = buildAssistantMessages(config, state.messages, instructorResponse);
   const assistantResponse = await generateResponse(
     AGENT_PROMPTS[config.assistant].systemPrompt,
@@ -76,7 +75,7 @@ async function runChatRound(
 
 export async function POST(request: NextRequest) {
   try {
-    const { task, apiKey, model, simulationMode } = await request.json();
+    const { task, apiKey, model, simulationMode, tavilyApiKey } = await request.json();
 
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task is required' }), {
@@ -109,8 +108,18 @@ export async function POST(request: NextRequest) {
 
         try {
           let context = '';
-          let finalCode = '';
-          const phaseOrder: Phase[] = ['design', 'coding', 'testing'];
+          let compositionPropsJson = '';
+          const allMessages: ChatMessage[] = [];
+          const phaseOrder: Phase[] = ['research', 'pre-production', 'production', 'post-production'];
+
+          // research 페이즈 전에 웹 검색 수행
+          let searchContext = '';
+          try {
+            const { formatted } = await performWebSearch(task, tavilyApiKey);
+            searchContext = formatted;
+          } catch (error) {
+            console.error('Web search failed:', error);
+          }
 
           for (const phase of phaseOrder) {
             const pairs = PHASE_PAIRS[phase];
@@ -122,13 +131,18 @@ export async function POST(request: NextRequest) {
                 assistant: pair.assistant,
               });
 
+              // research 페이즈에는 검색 결과를 context에 주입
+              const pairContext = phase === 'research' && searchContext
+                ? `${context}\n\n${searchContext}`
+                : context;
+
               const config: ChatChainConfig = {
                 phase,
                 instructor: pair.instructor,
                 assistant: pair.assistant,
-                maxRounds: 10,
+                maxRounds: 3,
                 task,
-                context,
+                context: pairContext,
               };
 
               const state: ChatChainState = {
@@ -157,17 +171,31 @@ export async function POST(request: NextRequest) {
                 isComplete = result.isComplete;
               }
 
+              // 메시지 누적 및 context 갱신
+              allMessages.push(...state.messages);
               const lastMessage = state.messages[state.messages.length - 1];
               if (lastMessage) {
                 context = lastMessage.content;
-                if (phase === 'coding') {
-                  finalCode = extractMainCode(lastMessage.content);
-                }
               }
             }
           }
 
-          sendEvent('complete', { code: finalCode });
+          // 모든 메시지에서 컴포지션 JSON 추출 (역순)
+          const extracted = extractCompositionFromMessages(allMessages);
+          if (extracted) {
+            compositionPropsJson = JSON.stringify(extracted);
+          }
+
+          // 최종 결과 전송
+          let finalProps = compositionPropsJson ? JSON.parse(compositionPropsJson) : null;
+          if (!finalProps) {
+            finalProps = createFallbackComposition(task);
+          }
+
+          sendEvent('complete', {
+            compositionProps: finalProps,
+            compositionCode: JSON.stringify(finalProps, null, 2),
+          });
           controller.close();
         } catch (error) {
           console.error('Development process error:', error);
@@ -198,7 +226,7 @@ function handleSimulationMode(task: string) {
 
       try {
         const mockConversations = generateMockConversations(task);
-        let finalCode = '';
+        let compositionPropsJson = '';
 
         for (const conversation of mockConversations) {
           sendEvent('phaseChange', {
@@ -226,16 +254,28 @@ function handleSimulationMode(task: string) {
               });
             }
 
-            if (conversation.phase === 'coding' && exchange.content.includes('```')) {
-              const codeMatch = exchange.content.match(/```(?:\w+)?\n([\s\S]*?)```/);
-              if (codeMatch) {
-                finalCode = codeMatch[1].trim();
+            // production/post-production에서 JSON 추출
+            if (
+              (conversation.phase === 'production' || conversation.phase === 'post-production') &&
+              exchange.content.includes('```json')
+            ) {
+              const props = extractCompositionProps(exchange.content);
+              if (props) {
+                compositionPropsJson = JSON.stringify(props);
               }
             }
           }
         }
 
-        sendEvent('complete', { code: finalCode });
+        let finalProps = compositionPropsJson ? JSON.parse(compositionPropsJson) : null;
+        if (!finalProps) {
+          finalProps = createFallbackComposition(task);
+        }
+
+        sendEvent('complete', {
+          compositionProps: finalProps,
+          compositionCode: JSON.stringify(finalProps, null, 2),
+        });
         controller.close();
       } catch (error) {
         console.error('Simulation error:', error);

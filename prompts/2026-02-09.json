@@ -1,0 +1,82 @@
+[
+  {
+    "time": "10:29:24",
+    "user": "seungwonan",
+    "prompt": "현재 게임회사 컨셉을 영상 제작 회사 컨셉으로 변경해줘 \n\nhttps://www.remotion.dev/\n\n결과물은 remotion 을 사용해서 나오게 하면 돼\n\ncontext7 mcp와 웹 검색을 사용해서 리서치 후 구현 계획을 세우고\n추가로 필요한 맥락이 있다면 내게 질문해줘"
+  },
+  {
+    "time": "11:19:46",
+    "user": "seungwonan",
+    "prompt": "<task-notification>\n<task-id>b072644</task-id>\n<output-file>/private/tmp/claude-501/-Users-seungwonan-curriculum-3-fast-campus-CH02-02/tasks/b072644.output</output-file>\n<status>completed</status>\n<summary>Background command \"Test build after type fix\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-501/-Users-seungwonan-curriculum-3-fast-campus-CH02-02/tasks/b072644.output"
+  },
+  {
+    "time": "11:20:22",
+    "user": "seungwonan",
+    "prompt": " GET / 200 in 80s (compile: 75s, render: 4.5s)\n POST /api/develop 404 in 760ms (compile: 698ms, render: 62ms)\n GET / 200 in 99ms (compile: 5ms, render: 94ms)\n POST /api/develop 404 in 61ms (compile: 16ms, render: 46ms)\n\n\n\n\nforward-logs-shared.ts:95 [HMR] connected\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nuseDevelopmentStream.ts:76  POST http://localhost:3001/api/develop 404 (Not Found)\nuseDevelopmentStream.useCallback[startDevelopment] @ useDevelopmentStream.ts:76\nhandleStart @ page.tsx:69\nexecuteDispatch @ react-dom-client.development.js:20543\nrunWithFiberInDEV @ react-dom-client.development.js:986\nprocessDispatchQueue @ react-dom-client.development.js:20593\n(anonymous) @ react-dom-client.development.js:21164\nbatchedUpdates$1 @ react-dom-client.development.js:3377\ndispatchEventForPluginEventSystem @ react-dom-client.development.js:20747\ndispatchEvent @ react-dom-client.development.js:25693\ndispatchDiscreteEvent @ react-dom-client.development.js:25661\ninstallHook.js:1 Development error: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON\noverrideMethod @ installHook.js:1\nerror @ intercept-console-error.ts:42\nuseDevelopmentStream.useCallback[startDevelopment] @ useDevelopmentStream.ts:142\nawait in useDevelopmentStream.useCallback[startDevelopment]\nhandleStart @ page.tsx:69\nexecuteDispatch @ react-dom-client.development.js:20543\nrunWithFiberInDEV @ react-dom-client.development.js:986\nprocessDispatchQueue @ react-dom-client.development.js:20593\n(anonymous) @ react-dom-client.development.js:21164\nbatchedUpdates$1 @ react-dom-client.development.js:3377\ndispatchEventForPluginEventSystem @ react-dom-client.development.js:20747\ndispatchEvent @ react-dom-client.development.js:25693\ndispatchDiscreteEvent @ react-dom-client.development.js:25661"
+  },
+  {
+    "time": "14:27:26",
+    "user": "seungwonan",
+    "prompt": "gemini -p 로 '/Users/seungwonan/curriculum/3-fast-campus/CH02/02/changes.txt'\n\n변경 내역 요약 받아줘 "
+  },
+  {
+    "time": "14:28:00",
+    "user": "seungwonan",
+    "prompt": "그렇게 주지 말고 파일 멘션해줘 "
+  },
+  {
+    "time": "14:28:37",
+    "user": "seungwonan",
+    "prompt": "아니 멘션하면 되잖아 "
+  },
+  {
+    "time": "14:33:35",
+    "user": "seungwonan",
+    "prompt": "좋아 잘 편집했고, tavily api와 duckduckgo search 쿼리를 써서 검색하는 리서처도 롤에 추가해줘\n\n마지막으로 실행하면 너무나 많은 대화가 오고 가는 문제(한 캐릭터당 1-3 루프만 돌면 좋겠어), 결과물(동영상)이 마지막 팀원의 말인 문제를 고쳐줘\n\n이를 구현하기 위해 우선 리서치해줘 (web, context7). 궁금한 거 있으면 내게 질문하고"
+  },
+  {
+    "time": "14:53:36",
+    "user": "seungwonan",
+    "prompt": "아니 리서치가 첫 번째에 있어야하는거 아니야?"
+  },
+  {
+    "time": "14:54:54",
+    "user": "seungwonan",
+    "prompt": "리서치가 좌상단 + 방 이름도 변경해"
+  },
+  {
+    "time": "15:04:17",
+    "user": "seungwonan",
+    "prompt": "## Error Type\nBuild Error\n\n## Error Message\nExport search doesn't exist in target module\n\n## Build Output\n./src/lib/webSearch.ts:2:1\nExport search doesn't exist in target module\n  1 | import { tavily } from '@tavily/core';\n> 2 | import { search as ddgsSearch } from 'ddgs';\n    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  3 |\n  4 | interface SearchResult {\n  5 |   title: string;\n\nThe export search was not found in module [project]/node_modules/.pnpm/ddgs@1.0.4_@types+node@20.19.30_puppeteer-core@21.11.0/node_modules/ddgs/dist/index.js [app-route] (ecmascript).\nDid you mean to import default?\nAll exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.\n\nImport trace:\n  App Route:\n    ./src/lib/webSearch.ts\n    ./src/app/api/develop/route.ts\n\nNext.js version: 16.1.6 (Turbopack)"
+  },
+  {
+    "time": "15:08:43",
+    "user": "seungwonan",
+    "prompt": "내용이 이래"
+  },
+  {
+    "time": "15:23:35",
+    "user": "seungwonan",
+    "prompt": "remotion 비디오 서버사이드 렌더링 말고 api로 불가능하나?\n버셀 서버 리스 환경에 배포할거라 그래"
+  },
+  {
+    "time": "15:26:39",
+    "user": "seungwonan",
+    "prompt": "2번으로 해줘"
+  },
+  {
+    "time": "15:32:23",
+    "user": "seungwonan",
+    "prompt": "context7 mcp 확인하여 동영상이 더 예쁘게 나올 수 있도록 해줘\n예쁘게는 스타일링 얘기하는거야"
+  },
+  {
+    "time": "15:42:50",
+    "user": "seungwonan",
+    "prompt": "claude code 모델 가져오는 API 계속 호출하는 거 같아\n\n최소한 12시간 정도는 Next.js에서 캐싱해줘"
+  },
+  {
+    "time": "15:44:37",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/3-fast-campus/CH02/02/PROMPT.md'\n\n이거 결과물 품질이 떨어져버려 "
+  }
+]

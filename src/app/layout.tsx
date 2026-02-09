@@ -9,8 +9,8 @@ const pixelFont = VT323({
 });
 
 export const metadata: Metadata = {
-  title: "ChatDev Office - AI Multi-Agent Software Development",
-  description: "게더타운 스타일의 가상공간에서 AI 에이전트들이 협업하여 소프트웨어를 개발합니다",
+  title: "Video Studio - AI Multi-Agent Video Production",
+  description: "게더타운 스타일의 가상공간에서 AI 에이전트들이 협업하여 영상을 제작합니다",
 };
 
 export default function RootLayout({

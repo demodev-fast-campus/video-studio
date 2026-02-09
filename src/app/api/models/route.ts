@@ -1,6 +1,14 @@
 import { NextRequest } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 
+const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours
+
+let cache: {
+  key: string;
+  data: Array<{ id: string; displayName: string }>;
+  expiresAt: number;
+} | null = null;
+
 export async function POST(request: NextRequest) {
   try {
     const { apiKey } = await request.json();
@@ -17,6 +25,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (cache && cache.key === effectiveApiKey && Date.now() < cache.expiresAt) {
+      return new Response(JSON.stringify({ models: cache.data }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const client = new Anthropic({ apiKey: effectiveApiKey });
     const models: Array<{ id: string; displayName: string }> = [];
 
@@ -26,6 +41,8 @@ export async function POST(request: NextRequest) {
         displayName: model.display_name,
       });
     }
+
+    cache = { key: effectiveApiKey, data: models, expiresAt: Date.now() + CACHE_TTL };
 
     return new Response(JSON.stringify({ models }), {
       status: 200,

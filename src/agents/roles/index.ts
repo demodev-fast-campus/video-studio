@@ -1,17 +1,19 @@
-import { CEOAgent } from './CEO';
-import { CTOAgent } from './CTO';
-import { ProgrammerAgent } from './Programmer';
-import { ReviewerAgent } from './Reviewer';
-import { TesterAgent } from './Tester';
+import { DirectorAgent } from './Director';
+import { ProducerAgent } from './Producer';
+import { ScriptwriterAgent } from './Scriptwriter';
+import { MotionDesignerAgent } from './MotionDesigner';
+import { QAReviewerAgent } from './QAReviewer';
+import { ResearcherAgent } from './Researcher';
 import { AgentRole } from '@/types';
 import { AgentSystemPrompt } from '../types';
 
 export const AGENT_PROMPTS: Record<AgentRole, AgentSystemPrompt> = {
-  CEO: CEOAgent,
-  CTO: CTOAgent,
-  Programmer: ProgrammerAgent,
-  Reviewer: ReviewerAgent,
-  Tester: TesterAgent,
+  Researcher: ResearcherAgent,
+  Director: DirectorAgent,
+  Producer: ProducerAgent,
+  Scriptwriter: ScriptwriterAgent,
+  MotionDesigner: MotionDesignerAgent,
+  QAReviewer: QAReviewerAgent,
 };
 
-export { CEOAgent, CTOAgent, ProgrammerAgent, ReviewerAgent, TesterAgent };
+export { DirectorAgent, ProducerAgent, ScriptwriterAgent, MotionDesignerAgent, QAReviewerAgent, ResearcherAgent };

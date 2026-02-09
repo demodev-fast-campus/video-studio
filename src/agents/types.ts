@@ -33,36 +33,40 @@ export interface PhaseResult {
   success: boolean;
 }
 
-// 전체 개발 결과
+// 전체 제작 결과
 export interface DevelopmentResult {
   task: string;
-  designDoc: string;
-  code: string;
+  conceptDoc: string;
+  compositionCode: string;
   review: string;
-  testResults: string;
+  reviewResults: string;
   phases: PhaseResult[];
 }
 
 // 에이전트 역할별 설명
 export const AGENT_DESCRIPTIONS: Record<AgentRole, string> = {
-  CEO: '회사의 CEO로서 비전을 제시하고 요구사항을 명확히 합니다.',
-  CTO: 'CTO로서 기술적 결정을 내리고 아키텍처를 설계합니다.',
-  Programmer: '프로그래머로서 실제 코드를 작성합니다.',
-  Reviewer: '코드 리뷰어로서 코드 품질을 검토합니다.',
-  Tester: '테스터로서 기능을 검증합니다.',
+  Researcher: '리서처로서 웹 검색을 통해 주제에 대한 핵심 정보를 조사합니다.',
+  Director: '영상 감독으로서 크리에이티브 비전을 설정하고 방향을 제시합니다.',
+  Producer: '프로듀서로서 비전을 구체적인 제작 계획으로 변환합니다.',
+  Scriptwriter: '작가로서 영상 구성 스크립트를 JSON 형식으로 작성합니다.',
+  MotionDesigner: '모션 디자이너로서 스크립트를 검토하고 보완합니다.',
+  QAReviewer: 'QA 리뷰어로서 최종 결과물을 검증합니다.',
 };
 
 // 단계별 대화 쌍 정의
 export const PHASE_PAIRS: Record<Phase, { instructor: AgentRole; assistant: AgentRole }[]> = {
-  design: [
-    { instructor: 'CEO', assistant: 'CTO' },
+  'research': [
+    { instructor: 'Researcher', assistant: 'Director' },
   ],
-  coding: [
-    { instructor: 'CTO', assistant: 'Programmer' },
+  'pre-production': [
+    { instructor: 'Director', assistant: 'Producer' },
   ],
-  testing: [
-    { instructor: 'Programmer', assistant: 'Reviewer' },
-    { instructor: 'Reviewer', assistant: 'Tester' },
+  'production': [
+    { instructor: 'Producer', assistant: 'Scriptwriter' },
+    { instructor: 'Scriptwriter', assistant: 'MotionDesigner' },
   ],
-  completed: [],
+  'post-production': [
+    { instructor: 'MotionDesigner', assistant: 'QAReviewer' },
+  ],
+  'completed': [],
 };
