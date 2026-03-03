@@ -1,33 +1,30 @@
-[에셋](https://arlantr.itch.io/free-office-pixel-art)
+# Video Studio
 
-# ChatDev Office
+게더타운 스타일 2D 오피스에서 멀티 에이전트가 협업해 영상 시나리오(JSON)를 만들고, Remotion으로 미리보기/다운로드까지 수행하는 실험형 웹 앱입니다.
 
-게더타운 스타일의 2D 가상공간에서 ChatDev 방식의 멀티에이전트가 협업하여 소프트웨어를 개발하는 시각화 웹 서비스입니다.
+- 에셋 출처: [Free Office Pixel Art](https://arlantr.itch.io/free-office-pixel-art)
 
-## 기술 스택
+## 핵심 기능
 
-- **Frontend**: Next.js 16 (App Router) + TypeScript
-- **Game Engine**: Phaser 3 (dynamic import, SSR disabled)
-- **LLM**: Anthropic Claude API (멀티에이전트)
-- **Styling**: Tailwind CSS
+- Phaser 기반 가상 오피스에서 에이전트 이동/대화 시각화
+- `research -> pre-production -> production -> post-production` 페이즈 파이프라인
+- Anthropic Claude 기반 멀티 에이전트 대화 스트리밍(SSE)
+- 웹 검색 컨텍스트 주입(Tavily 우선, 실패 시 DuckDuckGo)
+- Remotion Player 미리보기 + WebM 렌더링 다운로드
+- 시뮬레이션 모드(LLM 키 없이 동작) 지원
 
 ## 에이전트 역할
 
-| 에이전트             | 역할                              |
-| -------------------- | --------------------------------- |
-| CEO (Alice)          | 프로젝트 비전 제시, 요구사항 정의 |
-| CTO (Bob)            | 기술적 결정, 아키텍처 설계        |
-| Programmer (Charlie) | 코드 작성                         |
-| Reviewer (Diana)     | 코드 리뷰                         |
-| Tester (Eve)         | 테스트 수행                       |
+| Role           | 설명                               |
+| -------------- | ---------------------------------- |
+| Researcher     | 웹 검색을 통해 주제 핵심 정보 조사 |
+| Director       | 크리에이티브 방향 설정             |
+| Producer       | 제작 계획 구체화                   |
+| Scriptwriter   | 영상 구성 JSON 작성                |
+| MotionDesigner | 구성 검토 및 보완                  |
+| QAReviewer     | 최종 결과 검증                     |
 
-## 개발 프로세스
-
-1. **Design Phase**: CEO ↔ CTO (요구사항 분석, 아키텍처 설계)
-2. **Coding Phase**: CTO ↔ Programmer (코드 작성)
-3. **Testing Phase**: Programmer ↔ Reviewer ↔ Tester (리뷰 및 테스트)
-
-## 설치 및 실행
+## 실행 방법
 
 ### 1. 의존성 설치
 
@@ -35,16 +32,15 @@
 pnpm install
 ```
 
-### 2. 환경 변수 설정
-
-`.env.local` 파일을 생성하고 Anthropic API 키를 설정하세요:
+### 2. 환경 변수 준비
 
 ```bash
 cp .env.example .env.local
-# .env.local 파일을 편집하여 API 키 입력
 ```
 
-```
+`.env.local` 예시:
+
+```bash
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
@@ -54,72 +50,56 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 pnpm dev
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
+브라우저에서 `http://localhost:3000` 접속.
 
-## 사용 방법
+## 사용 흐름
 
-1. 텍스트 입력창에 만들고 싶은 프로그램을 설명합니다.
-   - 예: "간단한 계산기 만들어줘"
-   - 예: "할 일 목록 앱을 만들어줘"
+1. 우측 패널에 제작할 영상 주제를 입력
+2. 필요 시 설정에서 API Key/Model/Simulation Mode 설정
+3. `시작` 버튼 클릭
+4. 대화 탭에서 에이전트 협업 로그 확인
+5. 영상 탭에서 Remotion 프리뷰 확인 및 WebM 다운로드
 
-2. "개발 시작" 버튼을 클릭합니다.
+## API 엔드포인트
 
-3. 에이전트들이 가상 오피스에서 이동하며 대화하는 것을 관찰합니다.
-
-4. 개발이 완료되면 생성된 코드가 화면에 표시됩니다.
+- `POST /api/develop`: 멀티 에이전트 파이프라인 실행(SSE)
+- `POST /api/models`: Anthropic 모델 목록 조회(12시간 캐시)
 
 ## 프로젝트 구조
 
-```
+```text
 src/
-├── app/                      # Next.js App Router
-│   ├── page.tsx              # 메인 페이지
+├── app/
+│   ├── page.tsx
 │   ├── layout.tsx
-│   └── api/chat/route.ts     # LLM API 엔드포인트
-│
-├── components/
-│   ├── GameCanvas.tsx        # Phaser 게임 래퍼
-│   ├── ChatPanel.tsx         # 에이전트 대화 패널
-│   ├── AgentStatus.tsx       # 에이전트 상태 표시
-│   ├── TaskProgress.tsx      # 작업 진행 상황
-│   └── CodeOutput.tsx        # 생성된 코드 표시
-│
-├── game/
-│   ├── main.tsx              # Phaser 게임 설정
-│   ├── scenes/
-│   │   ├── OfficeScene.ts    # 메인 오피스 씬
-│   │   └── PreloadScene.ts   # 에셋 로딩
-│   ├── entities/
-│   │   └── Agent.ts          # 에이전트 스프라이트
-│   ├── utils/
-│   │   └── EventBus.ts       # React-Phaser 통신
-│   └── config.ts             # 게임 설정
-│
+│   └── api/
+│       ├── develop/route.ts
+│       └── models/route.ts
 ├── agents/
-│   ├── types.ts              # 에이전트 타입 정의
-│   ├── AgentManager.ts       # 에이전트 관리자
-│   ├── ChatChain.ts          # ChatDev 채팅 체인
-│   └── roles/                # 역할별 에이전트 프롬프트
-│
+│   ├── roles/
+│   └── types.ts
+├── components/
+│   ├── GameCanvas.tsx
+│   ├── ChatPanel.tsx
+│   ├── VideoOutput.tsx
+│   ├── ProgressBar.tsx
+│   └── SettingsModal.tsx
+├── game/
+│   ├── scenes/
+│   ├── entities/
+│   └── main.tsx
+├── hooks/
 ├── lib/
-│   └── anthropic.ts          # Claude API 클라이언트
-│
-└── types/
-    └── index.ts              # 공통 타입
+└── remotion/
 ```
 
-## 시각화 요소
+## 기술 스택
 
-- 에이전트가 맵에서 이동하며 대화
-- 말풍선으로 현재 대화 표시
-- 작업 단계별 에이전트 위치 변경 (회의실, 개발실 등)
-- 실시간 코드 생성 결과 표시
-
-## Dual-Agent 패턴
-
-- **Instructor**: 지시 제공
-- **Assistant**: 지시 수행 및 결과 반환
-- 최대 10라운드 또는 2회 동일 결과 시 종료
+- Next.js 16 (App Router), React 19, TypeScript
+- Phaser 3
+- Remotion 4 (`@remotion/player`, `@remotion/web-renderer`)
+- Anthropic SDK
+- Tailwind CSS 4
 
 ## 라이선스
 
