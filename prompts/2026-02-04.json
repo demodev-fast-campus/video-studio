@@ -1,7 +1,92 @@
 [
   {
-    "time": "02:17:07",
+    "time": "10:29:24",
     "user": "seungwonan",
-    "prompt": "커밋 메시지 만들어줘 "
+    "prompt": "현재 게임회사 컨셉을 영상 제작 회사 컨셉으로 변경해줘 \n\nhttps://www.remotion.dev/\n\n결과물은 remotion 을 사용해서 나오게 하면 돼\n\ncontext7 mcp와 웹 검색을 사용해서 리서치 후 구현 계획을 세우고\n추가로 필요한 맥락이 있다면 내게 질문해줘"
+  },
+  {
+    "time": "11:19:46",
+    "user": "seungwonan",
+    "prompt": "<task-notification>\n<task-id>b072644</task-id>\n<output-file>/private/tmp/claude-501/-Users-seungwonan-curriculum-3-fast-campus-CH02-02/tasks/b072644.output</output-file>\n<status>completed</status>\n<summary>Background command \"Test build after type fix\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-501/-Users-seungwonan-curriculum-3-fast-campus-CH02-02/tasks/b072644.output"
+  },
+  {
+    "time": "11:20:22",
+    "user": "seungwonan",
+    "prompt": " GET / 200 in 80s (compile: 75s, render: 4.5s)\n POST /api/develop 404 in 760ms (compile: 698ms, render: 62ms)\n GET / 200 in 99ms (compile: 5ms, render: 94ms)\n POST /api/develop 404 in 61ms (compile: 16ms, render: 46ms)\n\n\n\n\nforward-logs-shared.ts:95 [HMR] connected\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nuseDevelopmentStream.ts:76  POST http://localhost:3001/api/develop 404 (Not Found)\nuseDevelopmentStream.useCallback[startDevelopment] @ useDevelopmentStream.ts:76\nhandleStart @ page.tsx:69\nexecuteDispatch @ react-dom-client.development.js:20543\nrunWithFiberInDEV @ react-dom-client.development.js:986\nprocessDispatchQueue @ react-dom-client.development.js:20593\n(anonymous) @ react-dom-client.development.js:21164\nbatchedUpdates$1 @ react-dom-client.development.js:3377\ndispatchEventForPluginEventSystem @ react-dom-client.development.js:20747\ndispatchEvent @ react-dom-client.development.js:25693\ndispatchDiscreteEvent @ react-dom-client.development.js:25661\ninstallHook.js:1 Development error: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON\noverrideMethod @ installHook.js:1\nerror @ intercept-console-error.ts:42\nuseDevelopmentStream.useCallback[startDevelopment] @ useDevelopmentStream.ts:142\nawait in useDevelopmentStream.useCallback[startDevelopment]\nhandleStart @ page.tsx:69\nexecuteDispatch @ react-dom-client.development.js:20543\nrunWithFiberInDEV @ react-dom-client.development.js:986\nprocessDispatchQueue @ react-dom-client.development.js:20593\n(anonymous) @ react-dom-client.development.js:21164\nbatchedUpdates$1 @ react-dom-client.development.js:3377\ndispatchEventForPluginEventSystem @ react-dom-client.development.js:20747\ndispatchEvent @ react-dom-client.development.js:25693\ndispatchDiscreteEvent @ react-dom-client.development.js:25661"
+  },
+  {
+    "time": "14:27:26",
+    "user": "seungwonan",
+    "prompt": "gemini -p 로 '/Users/seungwonan/curriculum/3-fast-campus/CH02/02/changes.txt'\n\n변경 내역 요약 받아줘 "
+  },
+  {
+    "time": "14:28:00",
+    "user": "seungwonan",
+    "prompt": "그렇게 주지 말고 파일 멘션해줘 "
+  },
+  {
+    "time": "14:33:35",
+    "user": "seungwonan",
+    "prompt": "좋아 잘 편집했고, tavily api와 duckduckgo search 쿼리를 써서 검색하는 리서처도 롤에 추가해줘\n\n마지막으로 실행하면 너무나 많은 대화가 오고 가는 문제(한 캐릭터당 1-3 루프만 돌면 좋겠어), 결과물(동영상)이 마지막 팀원의 말인 문제를 고쳐줘\n\n이를 구현하기 위해 우선 리서치해줘 (web, context7). 궁금한 거 있으면 내게 질문하고"
+  },
+  {
+    "time": "14:53:36",
+    "user": "seungwonan",
+    "prompt": "아니 리서치가 첫 번째에 있어야하는거 아니야?"
+  },
+  {
+    "time": "14:54:54",
+    "user": "seungwonan",
+    "prompt": "리서치가 좌상단 + 방 이름도 변경해"
+  },
+  {
+    "time": "15:04:17",
+    "user": "seungwonan",
+    "prompt": "## Error Type\nBuild Error\n\n## Error Message\nExport search doesn't exist in target module\n\n## Build Output\n./src/lib/webSearch.ts:2:1\nExport search doesn't exist in target module\n  1 | import { tavily } from '@tavily/core';\n> 2 | import { search as ddgsSearch } from 'ddgs';\n    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  3 |\n  4 | interface SearchResult {\n  5 |   title: string;\n\nThe export search was not found in module [project]/node_modules/.pnpm/ddgs@1.0.4_@types+node@20.19.30_puppeteer-core@21.11.0/node_modules/ddgs/dist/index.js [app-route] (ecmascript).\nDid you mean to import default?\nAll exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.\n\nImport trace:\n  App Route:\n    ./src/lib/webSearch.ts\n    ./src/app/api/develop/route.ts\n\nNext.js version: 16.1.6 (Turbopack)"
+  },
+  {
+    "time": "15:08:43",
+    "user": "seungwonan",
+    "prompt": "내용이 이래"
+  },
+  {
+    "time": "15:23:35",
+    "user": "seungwonan",
+    "prompt": "remotion 비디오 서버사이드 렌더링 말고 api로 불가능하나?\n버셀 서버 리스 환경에 배포할거라 그래"
+  },
+  {
+    "time": "15:26:39",
+    "user": "seungwonan",
+    "prompt": "2번으로 해줘"
+  },
+  {
+    "time": "15:32:23",
+    "user": "seungwonan",
+    "prompt": "context7 mcp 확인하여 동영상이 더 예쁘게 나올 수 있도록 해줘\n예쁘게는 스타일링 얘기하는거야"
+  },
+  {
+    "time": "15:42:50",
+    "user": "seungwonan",
+    "prompt": "claude code 모델 가져오는 API 계속 호출하는 거 같아\n\n최소한 12시간 정도는 Next.js에서 캐싱해줘"
+  },
+  {
+    "time": "15:44:37",
+    "user": "seungwonan",
+    "prompt": "'/Users/seungwonan/curriculum/3-fast-campus/CH02/02/PROMPT.md'\n\n이거 결과물 품질이 떨어져버려 "
+  },
+  {
+    "time": "15:48:11",
+    "user": "seungwonan",
+    "prompt": "## Error Type\nConsole Error\n\n## Error Message\nA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\nhttps://react.dev/link/hydration-mismatch\n\n  ...\n    <ScrollAndFocusHandler segmentPath={[...]}>\n      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>\n        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>\n          <LoadingBoundary name=\"/\" loading={null}>\n            <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n              <HTTPAccessFallbackErrorBoundary pathname=\"/\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n                <RedirectBoundary>\n                  <RedirectErrorBoundary router={{...}}>\n                    <InnerLayoutRouter url=\"/\" tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>\n                      <SegmentViewNode type=\"page\" pagePath=\"page.tsx\">\n                        <SegmentTrieNode>\n                        <ClientPageRoot Component={function Home} serverProvidedParams={{...}}>\n                          <Home params={Promise} searchParams={Promise}>\n                            <div className=\"h-screen w...\">\n                              <div\n                                className=\"absolute inset-0 flex items-center justify-center bg-cover bg-center bg-no-...\"\n                                style={{\n+                                 backgroundImage: \"url(/assets/bg.jpeg)\"\n+                                 paddingRight: 462\n-                                 background-image: \"url(\\\"/assets/bg.jpeg\\\")\"\n-                                 padding-right: \"420px\"\n                                }}\n                              >\n                              <button\n                                onClick={function onClick}\n                                className=\"absolute top-1/2 -translate-y-1/2 bg-[#1a1a2e] border-2 border-r-0 border-[...\"\n+                               style={{right:462}}\n-                               style={{right:\"420px\"}}\n                              >\n                              <div\n                                className=\"absolute top-0 right-0 h-full flex flex-col bg-[#1a1a2e] border-l-4 border-...\"\n+                               style={{width:462}}\n-                               style={{width:\"420px\"}}\n                              >\n                              ...\n                      ...\n                    ...\n        ...\n\n\n\n    at div (<anonymous>:null:null)\n    at Home (src/app/page.tsx:75:7)\n\n## Code Frame\n  73 |     <div className=\"h-screen w-screen overflow-hidden relative bg-[#0a0a1a]\">\n  74 |       {/* 게임 영역 */}\n> 75 |       <div\n     |       ^\n  76 |         className={`absolute inset-0 flex items-center justify-center bg-cover bg-center bg-no-repeat ${\n  77 |           isResizing ? '' : 'transition-all duration-300'\n  78 |         }`}\n\nNext.js version: 16.1.6 (Turbopack)"
+  },
+  {
+    "time": "15:50:32",
+    "user": "seungwonan",
+    "prompt": "forward-logs-shared.ts:95 [HMR] connected\ninstallHook.js:1 A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\nhttps://react.dev/link/hydration-mismatch\n\n  ...\n    <ScrollAndFocusHandler segmentPath={[...]}>\n      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>\n        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>\n          <LoadingBoundary name=\"/\" loading={null}>\n            <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n              <HTTPAccessFallbackErrorBoundary pathname=\"/\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n                <RedirectBoundary>\n                  <RedirectErrorBoundary router={{...}}>\n                    <InnerLayoutRouter url=\"/\" tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>\n                      <SegmentViewNode type=\"page\" pagePath=\"page.tsx\">\n                        <SegmentTrieNode>\n                        <ClientPageRoot Component={function Home} serverProvidedParams={{...}}>\n                          <Home params={Promise} searchParams={Promise}>\n                            <div className=\"h-screen w...\">\n                              <div\n                                className=\"absolute inset-0 flex items-center justify-center bg-cover bg-center bg-no-...\"\n                                style={{\n+                                 backgroundImage: \"url(/assets/bg.jpeg)\"\n+                                 paddingRight: 462\n-                                 background-image: \"url(\\\"/assets/bg.jpeg\\\")\"\n-                                 padding-right: \"420px\"\n                                }}\n                              >\n                              <button\n                                onClick={function onClick}\n                                className=\"absolute top-1/2 -translate-y-1/2 bg-[#1a1a2e] border-2 border-r-0 border-[...\"\n+                               style={{right:462}}\n-                               style={{right:\"420px\"}}\n                              >\n                              <div\n                                className=\"absolute top-0 right-0 h-full flex flex-col bg-[#1a1a2e] border-l-4 border-...\"\n+                               style={{width:462}}\n-                               style={{width:\"420px\"}}\n                              >\n                              ...\n                      ...\n                    ...\n        ...\n\noverrideMethod @ installHook.js:1\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nforward-logs-shared.ts:95 [Fast Refresh] rebuilding\nforward-logs-shared.ts:95 [Fast Refresh] done in 177ms\nforward-logs-shared.ts:95 [Fast Refresh] rebuilding\nforward-logs-shared.ts:95      Phaser v3.90.0 (WebGL | Web Audio)  https://phaser.io/v390\nforward-logs-shared.ts:95 [Fast Refresh] done in 634ms\nforward-logs-shared.ts:95 [Fast Refresh] rebuilding\nforward-logs-shared.ts:95 [Fast Refresh] done in 829ms\nforward-logs-shared.ts:95 [Fast Refresh] rebuilding\nforward-logs-shared.ts:95 [Fast Refresh] done in 5614ms\nphaser.js:80894 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'play')\n    at Sprite.play (phaser.js:80894:27)\n    at Agent.setActive (Agent.ts:94:21)\n    at OfficeScene.ts:336:40\n    at Map.forEach (<anonymous>)\n    at OfficeScene.ts:336:23\n    at EventBus.ts:34:20\n    at Array.forEach (<anonymous>)\n    at SimpleEventEmitter.emit (EventBus.ts:34:9)\n    at emitStartConversation (useGameEvents.ts:27:16)\n    at useDevelopmentStream.useCallback[startDevelopment] (useDevelopmentStream.ts:115:33)\n    at async handleStart (page.tsx:68:5)\nforward-logs-shared.ts:95 [Fast Refresh] rebuilding\ninstallHook.js:1 Development error: TypeError: Cannot read properties of undefined (reading 'add')\n    at Agent.showBubble (Agent.ts:107:34)\n    at OfficeScene.ts:314:17\n    at EventBus.ts:34:20\n    at Array.forEach (<anonymous>)\n    at SimpleEventEmitter.emit (EventBus.ts:34:9)\n    at emitShowBubble (useGameEvents.ts:35:61)\n    at useDevelopmentStream.useCallback[startDevelopment] (useDevelopmentStream.ts:120:59)\n    at async handleStart (page.tsx:68:5)\noverrideMethod @ installHook.js:1\nforward-logs-shared.ts:95 [Fast Refresh] done in 2401ms"
+  },
+  {
+    "time": "16:01:52",
+    "user": "seungwonan",
+    "prompt": "현재 에이전트끼리의 대화인데 현재 프로젝트에서 완성할 수 있는 영상과 거리가 먼 영상을 제작하려고 하는 거 같네\n\n뽑아낼 수 있는 결과물에 대한 얘기만 가능하게 해줘\n그리고 리서치 결과와 너무 다른 결과물이 나온다\n\n'/Users/seungwonan/curriculum/3-fast-campus/CH02/02/PROMPT.md'"
   }
 ]
